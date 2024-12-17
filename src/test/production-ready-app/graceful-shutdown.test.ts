@@ -2,7 +2,7 @@ import { Server } from 'http';
 import { Socket } from 'net';
 import { bootstrap, app, shutdown } from '../../bootstrap';
 
-jest.mock('../utils/logger', () => ({
+jest.mock('../../utils/logger', () => ({
   warn: jest.fn(),
   info: jest.fn(),
   error: jest.fn(),

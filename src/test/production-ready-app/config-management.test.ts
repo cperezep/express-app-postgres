@@ -16,7 +16,7 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
   test('should load .env.production when NODE_ENV is production', () => {
     process.env.NODE_ENV = 'production';
 
-    const { config } = require('../config');
+    const { config } = require('../../config');
     expect(config).toEqual(expect.objectContaining({
       PORT: '8000',
       NODE_ENV: 'production',
@@ -27,7 +27,7 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
   test('should load .env.test when NODE_ENV is test', () => {
     process.env.NODE_ENV = 'test';
 
-    const { config } = require('../config');
+    const { config } = require('../../config');
     expect(config).toEqual(expect.objectContaining({
       PORT: '8000',
       NODE_ENV: 'test',
@@ -36,12 +36,12 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
   });
 
   test('should fallback to .env.test when NODE_ENV is not defined', () => {
-    const { config: { NODE_ENV } } = require('../config');
+    const { config: { NODE_ENV } } = require('../../config');
     expect(NODE_ENV).toEqual('test');
   });
 
   test('should use default values for config when environment variables are missing', () => {
-    const { config } = require('../config');
+    const { config } = require('../../config');
     expect(config).toEqual(expect.objectContaining({
       PORT: '8000',
       NODE_ENV: 'test',
