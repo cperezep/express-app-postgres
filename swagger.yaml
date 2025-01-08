@@ -8,7 +8,35 @@ servers:
 
 paths:
   /products:
+    get:
+      tags:
+        - Products
+      summary: Get all products
+      responses:
+        '200':
+          description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Mongo Object ID
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        price:
+                          type: number
     post:
+      tags:
+        - Products
       summary: Create a new product
       requestBody:
         required: true
@@ -17,22 +45,20 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                name:
                   type: string
                 description:
                   type: string
-                price:
-                  type: number
+                count:
+                  type: string
       responses:
-        '200':
+        '201':
           description: Product successfully created
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
                   data:
                     type: object
                     properties:
@@ -47,6 +73,8 @@ paths:
                         type: number
   /products/{id}:
     get:
+      tags:
+        - Products
       summary: Retrieve a product by ID
       parameters:
         - in: path
@@ -63,8 +91,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
                   data:
                     type: object
                     properties:
@@ -78,17 +104,18 @@ paths:
                       price:
                         type: number
         '404':
-          description: Product not found
+          description: Products not found
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
-                  data:
-                    type: object
+                  message:
+                    type: string
+                    example: 'Products not found'
     put:
+      tags:
+        - Products
       summary: Update product details by ID
       parameters:
         - in: path
@@ -104,12 +131,12 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                name:
                   type: string
                 description:
                   type: string
-                price:
-                  type: number
+                count:
+                  type: string
       responses:
         '200':
           description: Product information updated
@@ -118,8 +145,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
                   data:
                     type: object
                     properties:
@@ -133,17 +158,20 @@ paths:
                       price:
                         type: number
         '404':
-          description: Product not found
+          description: Products not found
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
-                  data:
-                    type: object
+                  message:
+                    type: string
+                    example: 'Products not found'
     delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
       summary: Delete a product by ID
       parameters:
         - in: path
@@ -164,148 +192,45 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
                   data:
                     type: object
                     properties:
                       id:
                         type: string
                         description: Mongo Object ID
-        '404':
-          description: Product not found
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: integer
-                  data:
-                    type: object
-  /api/auth/register:
-    post:
-      tags:
-        - auth
-      summary: Create new user (for Module 9)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserRequestBody'
-      responses:
-        '200':
-          description: Returns new user
+                  message:
+                    type: string
+                    example: 'Unauthorized access'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateUserResponse'
-              example:
-                data:
-                  id: eb5a26af-6e4c-4f31-a9b1-3450d42ac66c
-                  email: ann.jones@epam.com
-                  role: admin
-                error: null
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              example:
-                data: null
-                error:
-                  message: Email is not valid
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              example:
-                data: null
-                error:
-                  message: 'Internal Server error'
-  /api/auth/login:
-    post:
-      tags:
-        - auth
-      summary: Login user (for Module 9)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequestBody'
-      responses:
-        '200':
-          description: Returns token
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginUserResponse'
-              example:
-                data:
-                  token: VugRyl8SX88-LOZhvJxupjfWX=rATjop1kFw/NcshAQ4QdX0moMh9w9pVtL4rowLVoVpjpYBSKBUJsfqjnjnr-ImD/XAWJUdXIFfy3!7ViC/pxSP5zNefrgMAt2=?3=iv7Gga=zjphHqog6Jdy?AliWwYROxe4AUzQAxM!Nc=Hxax-0hJRJ!ijgE-=6RFis!cuHXxpJBA=EpoTYmla247q6rrm1RA!WLq3rJOX1itwD-LGb8hdGVXwGFgxy9QNJ/
-                error: null
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Access denied'
         '404':
-          description: Bad request
+          description: Products not found
           content:
             application/json:
-              example:
-                data: null
-                error:
-                  message: No user with such email or password
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              example:
-                data: null
-                error:
-                  message: 'Internal Server error'
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Products not found'
 components:
-  schemas:
-    CreateUserRequestBody:
-      type: object
-      properties:
-        email:
-          type: string
-          example: "ann.jones@epam.com"
-        password:
-          type: string
-          example: "DDQldls?kdpw0fk"
-        role:
-          type: string
-          enum: [admin, user]
-          example: "admin"
-    CreateUserResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          example: "fdbbb574-266b-4b2e-ad2d-790bcf4765c2"
-        email:
-          type: string
-          example: "ann.jones@epam.com"
-        role:
-          type: string
-          enum: [admin, user]
-          example: "admin"
-        error:
-          $ref: '#/components/schemas/ErrorResponse'
-    LoginRequestBody:
-      type: object
-      properties:
-        email:
-          type: string
-          example: "ann.jones@epam.com"
-        password:
-          type: string
-          example: "DDQldls?kdpw0fk"
-    LoginUserResponse:
-      type: object
-      properties:
-        token:
-          type: string
-          example: "VugRyl8SX88-LOZhvJxupjfWX=rATjop1kFw/NcshAQ4QdX0moMh9w9pVtL4rowLVoVpjpYBSKBUJsfqjnjnr-ImD/XAWJUdXIFfy3!7ViC/pxSP5zNefrgMAt2=?3=iv7Gga=zjphHqog6Jdy?AliWwYROxe4AUzQAxM!Nc=Hxax-0hJRJ!ijgE-=6RFis!cuHXxpJBA=EpoTYmla247q6rrm1RA!WLq3rJOX1itwD-LGb8hdGVXwGFgxy9QNJ/"
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
