@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  title: Products API
+  description: API for managing products
+  version: "1.0"
+servers:
+  - url: http://localhost:8000/api
+
+paths:
+  /products:
+    post:
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+      responses:
+        '200':
+          description: Product successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Mongo Object ID
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      price:
+                        type: number
+  /products/{id}:
+    get:
+      summary: Retrieve a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Mongo Object ID
+      responses:
+        '200':
+          description: Product retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Mongo Object ID
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      price:
+                        type: number
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+    put:
+      summary: Update product details by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Mongo Object ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+      responses:
+        '200':
+          description: Product information updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Mongo Object ID
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      price:
+                        type: number
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+    delete:
+      summary: Delete a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: is-admin
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Mongo Object ID
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+  /api/auth/register:
+    post:
+      tags:
+        - auth
+      summary: Create new user (for Module 9)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequestBody'
+      responses:
+        '200':
+          description: Returns new user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+              example:
+                data:
+                  id: eb5a26af-6e4c-4f31-a9b1-3450d42ac66c
+                  email: ann.jones@epam.com
+                  role: admin
+                error: null
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              example:
+                data: null
+                error:
+                  message: Email is not valid
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                data: null
+                error:
+                  message: 'Internal Server error'
+  /api/auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login user (for Module 9)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestBody'
+      responses:
+        '200':
+          description: Returns token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginUserResponse'
+              example:
+                data:
+                  token: VugRyl8SX88-LOZhvJxupjfWX=rATjop1kFw/NcshAQ4QdX0moMh9w9pVtL4rowLVoVpjpYBSKBUJsfqjnjnr-ImD/XAWJUdXIFfy3!7ViC/pxSP5zNefrgMAt2=?3=iv7Gga=zjphHqog6Jdy?AliWwYROxe4AUzQAxM!Nc=Hxax-0hJRJ!ijgE-=6RFis!cuHXxpJBA=EpoTYmla247q6rrm1RA!WLq3rJOX1itwD-LGb8hdGVXwGFgxy9QNJ/
+                error: null
+        '404':
+          description: Bad request
+          content:
+            application/json:
+              example:
+                data: null
+                error:
+                  message: No user with such email or password
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                data: null
+                error:
+                  message: 'Internal Server error'
+components:
+  schemas:
+    CreateUserRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "ann.jones@epam.com"
+        password:
+          type: string
+          example: "DDQldls?kdpw0fk"
+        role:
+          type: string
+          enum: [admin, user]
+          example: "admin"
+    CreateUserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "fdbbb574-266b-4b2e-ad2d-790bcf4765c2"
+        email:
+          type: string
+          example: "ann.jones@epam.com"
+        role:
+          type: string
+          enum: [admin, user]
+          example: "admin"
+        error:
+          $ref: '#/components/schemas/ErrorResponse'
+    LoginRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "ann.jones@epam.com"
+        password:
+          type: string
+          example: "DDQldls?kdpw0fk"
+    LoginUserResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "VugRyl8SX88-LOZhvJxupjfWX=rATjop1kFw/NcshAQ4QdX0moMh9w9pVtL4rowLVoVpjpYBSKBUJsfqjnjnr-ImD/XAWJUdXIFfy3!7ViC/pxSP5zNefrgMAt2=?3=iv7Gga=zjphHqog6Jdy?AliWwYROxe4AUzQAxM!Nc=Hxax-0hJRJ!ijgE-=6RFis!cuHXxpJBA=EpoTYmla247q6rrm1RA!WLq3rJOX1itwD-LGb8hdGVXwGFgxy9QNJ/"
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
