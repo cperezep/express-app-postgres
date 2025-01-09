@@ -12,7 +12,10 @@ import {
   PRODUCT_ID,
 } from '../helpers/constants';
 
-describe('Products /api/products', () => {
+
+// TODO add token for auth admin and not admin
+
+describe('Products /api/products with auth', () => {
   it('Should create a new product', async () => {
     const newProduct = {
       title: "Create Product",
@@ -56,6 +59,7 @@ describe('Products /api/products', () => {
 
     const { body } = await request(API_HOST)
       .put(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
+      .set('Authorization', 'Bearer valid-token')
       .send(updatedProduct)
       .expect('Content-Type', /json/)
       .expect(200);
@@ -66,13 +70,34 @@ describe('Products /api/products', () => {
   it('Should delete a product', async () => {
     await request(API_HOST)
       .delete(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
+      .set('Authorization', 'Bearer valid-token')
       .expect('Content-Type', /json/)
       .expect(200);
+  });
+
+  it('Should get 401 during delete product', async () => {
+    const { body } = await request(API_HOST)
+      .delete(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
+      .expect('Content-Type', /json/)
+      .expect(401);
+
+      await errorResponseSchema.validateAsync(body);
+  });
+
+  it('Should get 403 during delete product', async () => {
+    const { body } = await request(API_HOST)
+      .delete(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
+      .set('Authorization', 'Bearer valid-token')
+      .expect('Content-Type', /json/)
+      .expect(403);
+
+      await errorResponseSchema.validateAsync(body);
   });
 
   it('Should return 404 for non-existing product', async () => {
     const { body } = await request(API_HOST)
       .get(`${PRODUCTS_API_URL}/999`)
+      .set('Authorization', 'Bearer valid-token')
       .expect('Content-Type', /json/)
       .expect(404);
 
