@@ -14,11 +14,12 @@ import {
   PRODUCT_ID,
 } from '../helpers/constants';
 
-let token = '';
+let adminToken = '';
+let userToken = '';
 
 describe('Authentication API', () => {
-  it('Should register a new user admin', async () => {
-    const newUser = {
+  it('Should register a new user as admin', async () => {
+    const user = {
       email: "admin@admin.admin",
       password: "admin",
       role: "admin"
@@ -26,15 +27,15 @@ describe('Authentication API', () => {
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/register`)
-      .send(newUser)
+      .send(user)
       .expect('Content-Type', /json/)
       .expect(201);
 
     await registerUserSchema.validateAsync(body);
   });
 
-  it('Should register a new user not admin', async () => {
-    const newUser = {
+  it('Should register a new user as not admin', async () => {
+    const user = {
       email: "bob@epam.com",
       password: "bob",
       role: "user"
@@ -42,7 +43,7 @@ describe('Authentication API', () => {
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/register`)
-      .send(newUser)
+      .send(user)
       .expect('Content-Type', /json/)
       .expect(201);
 
@@ -50,7 +51,7 @@ describe('Authentication API', () => {
   });
 
   it('Should not register a user with invalid email', async () => {
-    const newUser = {
+    const user = {
       email: "invalid_email",
       password: "password123",
       role: "user"
@@ -58,41 +59,43 @@ describe('Authentication API', () => {
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/register`)
-      .send(newUser)
+      .send(user)
       .expect('Content-Type', /json/)
       .expect(400);
 
     await errorResponseSchema.validateAsync(body);
   });
 
-  it('Should log in an existing user', async () => {
-    const userDetails = {
+  it('Should log in an existing user as admin', async () => {
+    const user = {
       email: "admin@admin.admin",
       password: "admin",
     };
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/login`)
-      .send(userDetails)
+      .send(user)
       .expect('Content-Type', /json/)
       .expect(200);
 
-    token = body.data.token;
+    adminToken = body.data.token;
 
     await loginUserSchema.validateAsync(body);
   });
 
-  it('Should log in an existing user', async () => {
-    const userDetails = {
-      email: "admin@admin.admin",
-      password: "admin",
+  it('Should log in an existing user as not admin', async () => {
+    const user = {
+      email: "bob@epam.com",
+      password: "bob",
     };
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/login`)
-      .send(userDetails)
+      .send(user)
       .expect('Content-Type', /json/)
       .expect(200);
+
+    userToken = body.data.token;
 
     await loginUserSchema.validateAsync(body);
   });
@@ -139,7 +142,7 @@ describe('Products /api/products with auth', () => {
 
     const { body } = await request(API_HOST)
       .post(PRODUCTS_API_URL)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${userToken}`)
       .send(newProduct)
       .expect('Content-Type', /json/)
       .expect(201);
@@ -150,6 +153,7 @@ describe('Products /api/products with auth', () => {
   it('Should retrieve all products', async () => {
     const { body } = await request(API_HOST)
       .get(PRODUCTS_API_URL)
+      .set('Authorization', `Bearer ${userToken}`)
       .expect('Content-Type', /json/)
       .expect(200);
 
@@ -159,13 +163,14 @@ describe('Products /api/products with auth', () => {
   it('Should return a product by ID', async () => {
     const { body } = await request(API_HOST)
       .get(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
+      .set('Authorization', `Bearer ${userToken}`)
       .expect('Content-Type', /json/)
       .expect(200);
 
     await productResponseSchema.validateAsync(body);
   });
 
-  it('Should update an existing product', async () => {
+  it('Should update an existing product as admin', async () => {
     const updatedProduct = {
       title: "Updated Product",
       description: "Updated Description",
@@ -174,7 +179,7 @@ describe('Products /api/products with auth', () => {
 
     const { body } = await request(API_HOST)
       .put(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${adminToken}`)
       .send(updatedProduct)
       .expect('Content-Type', /json/)
       .expect(200);
@@ -182,12 +187,37 @@ describe('Products /api/products with auth', () => {
     await productResponseSchema.validateAsync(body);
   });
 
-  it('Should delete a product', async () => {
+  it('Should delete a product as admin', async () => {
     await request(API_HOST)
       .delete(`${PRODUCTS_API_URL}/51422fcd-0366-4186-ad5b-c23059b6f64f`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${adminToken}`)
       .expect('Content-Type', /json/)
       .expect(200);
+  });
+
+  it('Should update an existing product as not admin', async () => {
+    const updatedProduct = {
+      title: "Updated Product",
+      description: "Updated Description",
+      price: 150
+    };
+
+    const { body } = await request(API_HOST)
+      .put(`${PRODUCTS_API_URL}/${PRODUCT_ID}`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send(updatedProduct)
+      .expect('Content-Type', /json/)
+      .expect(403);
+
+    await productResponseSchema.validateAsync(body);
+  });
+
+  it('Should delete a product as not admin', async () => {
+    await request(API_HOST)
+      .delete(`${PRODUCTS_API_URL}/51422fcd-0366-4186-ad5b-c23059b6f64f`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect('Content-Type', /json/)
+      .expect(403);
   });
 
   it('Should get 401 during delete product', async () => {
@@ -197,28 +227,6 @@ describe('Products /api/products with auth', () => {
       .expect(401);
 
       await errorResponseSchema.validateAsync(body);
-  });
-
-  it('Should get 403 during delete product', async () => {
-    const newProduct = {
-      title: "Create Product",
-      description: "Create Description",
-      price: 100
-    };
-
-    await request(API_HOST)
-      .post(PRODUCTS_API_URL)
-      .send(newProduct)
-      .expect('Content-Type', /json/)
-      .expect(201);
-
-    const { body } = await request(API_HOST)
-      .delete(`${PRODUCTS_API_URL}/51422fcd-0366-4186-ad5b-c23059b6f64f`)
-      .set('Authorization', `Bearer invalid-token`)
-      .expect('Content-Type', /json/)
-      .expect(403);
-
-    await errorResponseSchema.validateAsync(body);
   });
 
   it('Should return 404 for non-existing product', async () => {
