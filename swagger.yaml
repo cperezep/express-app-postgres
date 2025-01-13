@@ -45,12 +45,12 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                title:
                   type: string
                 description:
                   type: string
                 price:
-                  type: string
+                  type: number
       responses:
         '201':
           description: Product successfully created
@@ -112,7 +112,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Products not found'
+                    example: 'Product not found'
     put:
       tags:
         - Products
@@ -131,12 +131,12 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                title:
                   type: string
                 description:
                   type: string
                 price:
-                  type: string
+                  type: number
       responses:
         '200':
           description: Product information updated
@@ -166,7 +166,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Products not found'
+                    example: 'Product not found'
     delete:
       security:
         - bearerAuth: []
@@ -179,45 +179,9 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: is-admin
-          required: true
-          schema:
-            type: boolean
       responses:
         '200':
           description: Product deleted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        description: uuid
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Unauthorized access'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Access denied'
         '404':
           description: Products not found
           content:
@@ -227,7 +191,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Products not found'
+                    example: 'Product not found'
   /api/auth/register:
     post:
       tags:
@@ -239,7 +203,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateUserRequestBody'
       responses:
-        '200':
+        '201':
           description: Returns new user
           content:
             application/json:
@@ -262,18 +226,6 @@ paths:
               example:
                 error:
                   message: Email is not valid
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-              example:
-                error:
-                  message: 'Internal Server error'
   /api/auth/login:
     post:
       tags:
@@ -307,18 +259,6 @@ paths:
               example:
                 error:
                   message: 'Unauthorized access'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-              example:
-                error:
-                  message: 'Access denied'
         '404':
           description: User not found
           content:
