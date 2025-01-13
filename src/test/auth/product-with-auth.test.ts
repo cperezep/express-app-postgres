@@ -17,11 +17,27 @@ import {
 let token = '';
 
 describe('Authentication API', () => {
-  it('Should register a new user', async () => {
+  it('Should register a new user admin', async () => {
     const newUser = {
       email: "admin@admin.admin",
       password: "admin",
       role: "admin"
+    };
+
+    const { body } = await request(API_HOST)
+      .post(`${AUTH_API_URL}/register`)
+      .send(newUser)
+      .expect('Content-Type', /json/)
+      .expect(201);
+
+    await registerUserSchema.validateAsync(body);
+  });
+
+  it('Should register a new user not admin', async () => {
+    const newUser = {
+      email: "bob@epam.com",
+      password: "bob",
+      role: "user"
     };
 
     const { body } = await request(API_HOST)
@@ -57,7 +73,6 @@ describe('Authentication API', () => {
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/login`)
-      .set('Authorization', 'Bearer valid-token')
       .send(userDetails)
       .expect('Content-Type', /json/)
       .expect(200);
@@ -67,7 +82,7 @@ describe('Authentication API', () => {
     await loginUserSchema.validateAsync(body);
   });
 
-  it('Should get 401 unauthorized access', async () => {
+  it('Should log in an existing user', async () => {
     const userDetails = {
       email: "admin@admin.admin",
       password: "admin",
@@ -77,9 +92,9 @@ describe('Authentication API', () => {
       .post(`${AUTH_API_URL}/login`)
       .send(userDetails)
       .expect('Content-Type', /json/)
-      .expect(401);
+      .expect(200);
 
-    await errorResponseSchema.validateAsync(body);
+    await loginUserSchema.validateAsync(body);
   });
 
   it('Should get 403 access denied', async () => {
@@ -106,7 +121,6 @@ describe('Authentication API', () => {
 
     const { body } = await request(API_HOST)
       .post(`${AUTH_API_URL}/login`)
-      .set('Authorization', 'Bearer valid-token')
       .send(userDetails)
       .expect('Content-Type', /json/)
       .expect(404);
@@ -125,6 +139,7 @@ describe('Products /api/products with auth', () => {
 
     const { body } = await request(API_HOST)
       .post(PRODUCTS_API_URL)
+      .set('Authorization', `Bearer ${token}`)
       .send(newProduct)
       .expect('Content-Type', /json/)
       .expect(201);
@@ -209,7 +224,6 @@ describe('Products /api/products with auth', () => {
   it('Should return 404 for non-existing product', async () => {
     const { body } = await request(API_HOST)
       .get(`${PRODUCTS_API_URL}/999`)
-      .set('Authorization', 'Bearer valid-token')
       .expect('Content-Type', /json/)
       .expect(404);
 
