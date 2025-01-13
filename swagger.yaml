@@ -293,6 +293,7 @@ paths:
                 $ref: '#/components/schemas/LoginUserResponse'
               example:
                 data:
+                  description: JWT
                   token: VugRyl8SX88-LOZhvJxupjfWX=rATjop1kFw/NcshAQ4QdX0moMh9w9pVtL4rowLVoVpjpYBSKBUJsfqjnjnr-ImD/XAWJUdXIFfy3!7ViC/pxSP5zNefrgMAt2=?3=iv7Gga=zjphHqog6Jdy?AliWwYROxe4AUzQAxM!Nc=Hxax-0hJRJ!ijgE-=6RFis!cuHXxpJBA=EpoTYmla247q6rrm1RA!WLq3rJOX1itwD-LGb8hdGVXwGFgxy9QNJ/
         '401':
           description: Unauthorized
