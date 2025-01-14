@@ -225,7 +225,19 @@ paths:
                     type: string
               example:
                 error:
-                  message: Email is not valid
+                  message: Email is not valid or password is missing
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                error:
+                  message: User with such email already exists
   /api/auth/login:
     post:
       tags:
@@ -259,18 +271,6 @@ paths:
               example:
                 error:
                   message: 'Unauthorized access'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-              example:
-                error:
-                  message: 'User not found'
 components:
   securitySchemes:
     bearerAuth:

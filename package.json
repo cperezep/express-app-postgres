@@ -9,6 +9,9 @@
     "stop": "./node_modules/.bin/pm2 delete node-js-express-application",
     "build": "mkdir -p dist && cp package.json dist/ && tsc",
     "test": "jest",
+    "test:express-app": "jest --testPathPattern=./src/test/express-app",
+    "test:auth": "jest --testPathPattern=./src/test/auth",
+    "test:production-ready-app": "jest --testPathPattern=./src/test/production-ready-app",
     "pretest": "npm start",
     "posttest": "npm stop",
     "lint": "./node_modules/.bin/eslint .",
@@ -25,7 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.4",
     "pg": "^8.13.1",
-    "uuid": "^9.0.0",
+    "uuid": "^9.0.1",
     "winston": "^3.17.0"
   },
   "devDependencies": {

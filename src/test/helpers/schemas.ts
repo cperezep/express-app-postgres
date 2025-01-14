@@ -33,7 +33,7 @@ export const loginUserSchema = Joi.object({
 });
 
 export const errorResponseSchema = Joi.object({
-  message: Joi.string().required(),
+  error: Joi.string().required(),
 });
 
 export const productSchema = Joi.object({
@@ -49,10 +49,4 @@ export const productsResponseSchema = Joi.object({
 
 export const productResponseSchema = Joi.object({
   data: productSchema,
-});
-
-export const productResponseSchemaDelete = Joi.object({
-  data: Joi.object({
-    id: Joi.string().required(),
-  }),
 });
