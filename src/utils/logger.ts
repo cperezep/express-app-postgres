@@ -5,6 +5,9 @@ import winston from 'winston';
  * Creates a logger instance with configurations specified in the application's config file.
  * Logs are outputted to the console.
  */
-const logger = {};
+const logger = {
+  // the line below is just a fix for TypeScript to compile properly until the logger is implemented
+  info: () => {},
+};
 
 export default logger;
