@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
 
 import {
@@ -13,6 +14,7 @@ import {
   PRODUCTS_API_URL,
   PRODUCT_ID,
   RANDOM_TOKEN,
+  RANDOM_PRODUCT,
 } from '../helpers/constants';
 import { UserRole } from '../../entities/user.entity';
 
@@ -234,7 +236,7 @@ describe('Products /api/products with auth', () => {
 
     it('should return 404 if product doesn\'t exist', async () => {
       const { body } = await request(API_HOST)
-        .get(`${PRODUCTS_API_URL}/999`)
+        .get(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .set('Authorization', `Bearer ${userToken}`)
         .expect('Content-Type', /json/)
         .expect(404);
@@ -269,7 +271,7 @@ describe('Products /api/products with auth', () => {
       };
 
       const { body } = await request(API_HOST)
-        .put(`${PRODUCTS_API_URL}/999`)
+        .put(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .set('Authorization', `Bearer ${userToken}`)
         .send(updatedProduct)
         .expect('Content-Type', /json/)
@@ -300,7 +302,7 @@ describe('Products /api/products with auth', () => {
 
     it('should return 404 if product doesn\'t exist', async () => {
       const { body } = await request(API_HOST)
-        .delete(`${PRODUCTS_API_URL}/999`)
+        .delete(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .set('Authorization', `Bearer ${adminToken}`)
         .expect('Content-Type', /json/)
         .expect(404);

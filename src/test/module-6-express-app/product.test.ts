@@ -1,7 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
 
 import { productResponseSchema, errorResponseSchema, productsResponseSchema } from '../helpers/schemas';
-import { API_HOST, PRODUCTS_API_URL, PRODUCT_ID } from '../helpers/constants';
+import {
+  API_HOST, PRODUCTS_API_URL, PRODUCT_ID, RANDOM_PRODUCT,
+} from '../helpers/constants';
 
 describe('Products /api/products', () => {
   describe('POST /api/products', () => {
@@ -45,7 +48,7 @@ describe('Products /api/products', () => {
 
     it('should return 404 if product doesn\'t exist', async () => {
       const { body } = await request(API_HOST)
-        .get(`${PRODUCTS_API_URL}/999`)
+        .get(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .expect('Content-Type', /json/)
         .expect(404);
 
@@ -78,7 +81,7 @@ describe('Products /api/products', () => {
       };
 
       const { body } = await request(API_HOST)
-        .put(`${PRODUCTS_API_URL}/999`)
+        .put(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .send(updatedProduct)
         .expect('Content-Type', /json/)
         .expect(404);
@@ -97,7 +100,7 @@ describe('Products /api/products', () => {
 
     it('should return 404 if product doesn\'t exist', async () => {
       const { body } = await request(API_HOST)
-        .delete(`${PRODUCTS_API_URL}/999`)
+        .delete(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .expect('Content-Type', /json/)
         .expect(404);
 
