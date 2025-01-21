@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { DB_CONNECTION_STRING, DB_USER, DB_PASSWORD } from '../../env/db-connection';
+import { DB_CONNECTION_STRING, DB_USER, DB_PASSWORD } from '../../env/mongodb-connection';
 
 const COLLECTION_NAME: string = 'products';
 
