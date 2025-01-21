@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
 
 const API_HOST = 'http://localhost:8000';
