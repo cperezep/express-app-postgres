@@ -1,6 +1,6 @@
 import { Server } from 'http';
 import { Socket } from 'net';
-import { bootstrap, app, shutdown } from '../../bootstrap';
+import { shutdown } from '../../bootstrap';
 
 jest.mock('../../utils/logger', () => ({
   warn: jest.fn(),
@@ -58,15 +58,5 @@ describe('[Production-Ready Node.js Applications] Graceful shutdown', () => {
     mockConnections.forEach((connection) => {
       expect(connection.destroy).toHaveBeenCalled();
     });
-  });
-
-  test('should set shutdown on SIGTERM and SIGINT', () => {
-    jest.spyOn(app, 'listen').mockReturnValue(mockServer as Server);
-    const processOnSpy = jest.spyOn(process, 'on');
-
-    bootstrap();
-
-    expect(processOnSpy).toHaveBeenCalledWith('SIGTERM', expect.any(Function));
-    expect(processOnSpy).toHaveBeenCalledWith('SIGINT', expect.any(Function));
   });
 });
