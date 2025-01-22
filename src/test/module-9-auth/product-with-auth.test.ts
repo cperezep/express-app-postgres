@@ -212,7 +212,7 @@ describe('Products /api/products with auth', () => {
       await errorResponseSchema.validateAsync(body);
     });
 
-    it('should return 404 if user doesn\'t exist', async () => {
+    it("should return 404 if user doesn't exist", async () => {
       const { body } = await request(API_HOST)
         .get(PRODUCTS_API_URL)
         .set('Authorization', `Bearer ${RANDOM_TOKEN}`)
@@ -234,7 +234,7 @@ describe('Products /api/products with auth', () => {
       await productResponseSchema.validateAsync(body);
     });
 
-    it('should return 404 if product doesn\'t exist', async () => {
+    it("should return 404 if product doesn't exist", async () => {
       const { body } = await request(API_HOST)
         .get(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .set('Authorization', `Bearer ${userToken}`)
@@ -263,7 +263,7 @@ describe('Products /api/products with auth', () => {
       await productResponseSchema.validateAsync(body);
     });
 
-    it('should return 404 if product doesn\'t exist', async () => {
+    it("should return 404 if product doesn't exist", async () => {
       const updatedProduct = {
         title: 'Updated Product',
         description: 'Updated Description',
@@ -300,7 +300,7 @@ describe('Products /api/products with auth', () => {
       await errorResponseSchema.validateAsync(body);
     });
 
-    it('should return 404 if product doesn\'t exist', async () => {
+    it("should return 404 if product doesn't exist", async () => {
       const { body } = await request(API_HOST)
         .delete(`${PRODUCTS_API_URL}/${RANDOM_PRODUCT}`)
         .set('Authorization', `Bearer ${adminToken}`)
