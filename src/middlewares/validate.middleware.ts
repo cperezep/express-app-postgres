@@ -1,11 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
-import { z } from 'zod';
+import type { NextFunction, Request, Response } from 'express';
+import type { z } from 'zod';
 import { ValidationError } from '../utils/errors';
 
 type ValidateTarget = 'body' | 'query' | 'params';
 
-export const validate = <S extends z.ZodType>(schema: S, target: ValidateTarget = 'body') => {
-  return (req: Request, _res: Response, next: NextFunction): void => {
+export const validate =
+  <S extends z.ZodType>(schema: S, target: ValidateTarget = 'body') =>
+  (req: Request, _res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req[target]);
 
     if (!result.success) {
@@ -21,4 +22,3 @@ export const validate = <S extends z.ZodType>(schema: S, target: ValidateTarget 
     req[target] = result.data as z.infer<S>;
     next();
   };
-};

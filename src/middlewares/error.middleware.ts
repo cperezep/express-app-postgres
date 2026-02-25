@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { NotFoundError, ValidationError, UnauthorizedError } from '../utils/errors';
+import type { NextFunction, Request, Response } from 'express';
+import { NotFoundError, UnauthorizedError, ValidationError } from '../utils/errors';
 
-export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): void {
+export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction): void {
   console.error(`[Error] ${err.message}`, {
     stack: err.stack,
     path: req.path,

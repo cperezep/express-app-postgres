@@ -1,4 +1,4 @@
-import { ProductEntity } from '../entities/product.entity';
+import type { ProductEntity } from '../entities/product.entity';
 import { NotFoundError } from '../utils/errors';
 import { productRepository } from './product.repository';
 

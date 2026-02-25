@@ -1,5 +1,5 @@
 import { products } from '../data/products';
-import { ProductEntity } from '../entities/product.entity';
+import type { ProductEntity } from '../entities/product.entity';
 
 const storage: Map<string, ProductEntity> = new Map(products.map((product) => [product.id, product]));
 

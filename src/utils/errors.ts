@@ -7,7 +7,10 @@ export class NotFoundError extends Error {
 }
 
 export class ValidationError extends Error {
-  constructor(message: string, public errors: Record<string, unknown>[] = []) {
+  constructor(
+    message: string,
+    public errors: Record<string, unknown>[] = [],
+  ) {
     super(message);
     this.name = 'ValidationError';
   }

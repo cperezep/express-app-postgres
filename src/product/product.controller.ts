@@ -1,15 +1,15 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { validate } from '../middlewares/validate.middleware';
+import { asyncHandler } from '../utils/async-handler';
 import {
-  CreateProductInput,
+  type CreateProductInput,
   createProductSchema,
-  ProductIdParam,
+  type ProductIdParam,
   productIdParamSchema,
-  UpdateProductInput,
+  type UpdateProductInput,
   updateProductSchema,
 } from './product.schema';
 import { productService } from './product.service';
-import { asyncHandler } from '../utils/async-handler';
 
 export const createProductHandler = [
   validate(createProductSchema),
