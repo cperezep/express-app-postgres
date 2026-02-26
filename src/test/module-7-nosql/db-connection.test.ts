@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
-import { DB_CONNECTION_STRING, DB_USER, DB_PASSWORD } from '../../env/mongodb-connection';
+import { DB_CONNECTION_STRING, DB_PASSWORD, DB_USER } from '../../env/mongodb-connection';
 
 const COLLECTION_NAME: string = 'products';
 
 describe('Database connection', () => {
   beforeAll(async () => {
-    await mongoose.connect(DB_CONNECTION_STRING, (!DB_CONNECTION_STRING.includes('admin') ? { user: DB_USER, pass: DB_PASSWORD, authSource: 'admin' } : {}));
+    await mongoose.connect(
+      DB_CONNECTION_STRING,
+      !DB_CONNECTION_STRING.includes('admin') ? { user: DB_USER, pass: DB_PASSWORD, authSource: 'admin' } : {},
+    );
   });
 
   afterAll(async () => {
