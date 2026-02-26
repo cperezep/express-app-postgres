@@ -17,9 +17,9 @@ import mongoose from 'mongoose';
 export const DB_PASSWORD = 'nodegmp';
 export const DB_NAME = 'test';
 export const DB_HOST = 'localhost';
-export const DB_PORT = 27017; */
+export const DB_PORT = 27017;
 
-// export const DB_CONNECTION_STRING_LOCAL = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`;
+export const DB_CONNECTION_STRING = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`; */
 
 // Autocode
 

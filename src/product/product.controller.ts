@@ -4,7 +4,6 @@ import { asyncHandler } from '../utils/async-handler';
 import {
   type CreateProductInput,
   createProductSchema,
-  type ProductIdParam,
   productIdParamSchema,
   type UpdateProductInput,
   updateProductSchema,
@@ -31,7 +30,7 @@ export const getProductsHandler = asyncHandler(async (req, res) => {
 export const getProductHandler = [
   validate(productIdParamSchema, 'params'),
   asyncHandler(async (req: Request, res: Response) => {
-    const { id } = req.params as ProductIdParam;
+    const { id } = req.params;
 
     const product = await productService.getProductById(id);
 
@@ -43,7 +42,7 @@ export const updateProductHandler = [
   validate(productIdParamSchema, 'params'),
   validate(updateProductSchema, 'body'),
   asyncHandler(async (req: Request, res: Response) => {
-    const { id } = req.params as ProductIdParam;
+    const { id } = req.params;
     const body = req.body as UpdateProductInput;
 
     const product = await productService.updateProduct(id, body);
@@ -55,10 +54,10 @@ export const updateProductHandler = [
 export const deleteProductHandler = [
   validate(productIdParamSchema, 'params'),
   asyncHandler(async (req: Request, res: Response) => {
-    const { id } = req.params as ProductIdParam;
+    const { id } = req.params;
 
-    await productService.deleteProduct(id);
+    const deletedProduct = await productService.deleteProduct(id);
 
-    res.status(200).json();
+    res.status(200).json({ data: deletedProduct });
   }),
 ];

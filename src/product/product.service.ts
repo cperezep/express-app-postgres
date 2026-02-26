@@ -22,7 +22,7 @@ export const productService = {
     return product;
   },
 
-  async updateProduct(id: string, productPartial: Partial<ProductEntity>): Promise<IProductDocument | undefined> {
+  async updateProduct(id: string, productPartial: Partial<ProductEntity>): Promise<IProductDocument> {
     const product = await productRepository.updateById(id, productPartial);
 
     if (!product) {

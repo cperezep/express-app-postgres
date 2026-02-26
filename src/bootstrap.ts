@@ -33,9 +33,15 @@ const PORT = 8000;
  * @returns {Server} The HTTP server instance.
  */
 export const bootstrap = async () => {
-  await connect();
-  // biome-ignore lint: intentional debugging
-  console.log('Connected to MongoDB');
+  try {
+    await connect();
+    // biome-ignore lint: intentional debugging
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    // biome-ignore lint: intentional debugging
+    console.error('Failed to connect to MongoDB:', error);
+    process.exit(1);
+  }
 
   const server = app.listen(PORT, () => {
     // biome-ignore lint: intentional debugging
