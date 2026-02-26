@@ -1,10 +1,11 @@
-import express from 'express';
+import type { Server } from 'node:http';
+import type { Socket } from 'node:net';
 import bodyParser from 'body-parser';
-import { Socket } from 'net';
-import { Server } from 'http';
+import express from 'express';
+import { connect } from './env/mongodb-connection';
+import { errorHandler } from './middlewares/error.middleware';
 import { requestLogger } from './middlewares/request-logger';
 import productRoutes from './product/product.routes';
-import { errorHandler } from './middlewares/error.middleware';
 
 export const app = express();
 
@@ -22,7 +23,7 @@ app.use(errorHandler);
  * @param {Socket[]} connections - List of active connections to be closed.
  * @param {string} signal - The signal received that initiated the shutdown.
  */
-export const shutdown = (server: Server, connections: Socket[], signal: string) => {};
+export const shutdown = (_server: Server, _connections: Socket[], _signal: string) => {};
 
 const PORT = 8000;
 
@@ -31,8 +32,13 @@ const PORT = 8000;
  * for graceful shutdown.
  * @returns {Server} The HTTP server instance.
  */
-export const bootstrap = () => {
+export const bootstrap = async () => {
+  await connect();
+  // biome-ignore lint: intentional debugging
+  console.log('Connected to MongoDB');
+
   const server = app.listen(PORT, () => {
+    // biome-ignore lint: intentional debugging
     console.log(`Server is started on port ${PORT}`);
   });
 

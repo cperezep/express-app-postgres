@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 /*
   The file contains the valid credentials to connect to MongoDB locally and in Autocode.
 
@@ -11,11 +13,13 @@
 
 // Local development
 
-// export const DB_USER = 'mongo_user';
-// export const DB_PASSWORD = 'mongo_user_password';
-// export const DB_NAME = 'mongo_db';
-// export const DB_HOST = 'localhost';
-// export const DB_PORT = 27017;
+/* export const DB_USER = 'root';
+export const DB_PASSWORD = 'nodegmp';
+export const DB_NAME = 'test';
+export const DB_HOST = 'localhost';
+export const DB_PORT = 27017; */
+
+// export const DB_CONNECTION_STRING_LOCAL = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`;
 
 // Autocode
 
@@ -26,3 +30,11 @@ export const DB_HOST = 'localhost';
 export const DB_PORT = 27017;
 
 export const DB_CONNECTION_STRING = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`;
+
+export const connect = async () => {
+  await mongoose.connect(DB_CONNECTION_STRING);
+};
+
+export const disconnect = async () => {
+  await mongoose.disconnect();
+};
