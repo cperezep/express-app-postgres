@@ -1,37 +1,38 @@
-import { products } from '../data/products';
 import type { ProductEntity } from '../entities/product.entity';
-
-const storage: Map<string, ProductEntity> = new Map(products.map((product) => [product.id, product]));
+import { type IProductDocument, Product } from './product.model';
 
 export const productRepository = {
-  create(product: ProductEntity): ProductEntity {
-    storage.set(product.id, product);
-
-    return product;
+  async create(data: Omit<ProductEntity, 'id'>): Promise<IProductDocument> {
+    const productDocument = new Product(data);
+    return productDocument.save();
   },
 
-  getAll(): ProductEntity[] {
-    return Array.from(storage.values());
+  // For bulk seeding/tests
+  async createManyWithIds(data: ProductEntity[]): Promise<IProductDocument[]> {
+    const products = data.map(({ id, ...rest }) => ({
+      _id: id,
+      ...rest,
+    }));
+    return Product.insertMany(products);
   },
 
-  findById(id: string): ProductEntity | undefined {
-    return storage.get(id);
+  async findById(id: string): Promise<IProductDocument | null> {
+    return Product.findById(id).exec();
   },
 
-  update(id: string, data: Partial<Omit<ProductEntity, 'id'>>): ProductEntity | undefined {
-    const existingProduct = storage.get(id);
-
-    if (!existingProduct) {
-      return undefined;
-    }
-
-    const updatedProduct: ProductEntity = { ...existingProduct, ...data };
-    storage.set(id, updatedProduct);
-
-    return updatedProduct;
+  async findAll(): Promise<IProductDocument[]> {
+    return Product.find().exec();
   },
 
-  delete(id: string) {
-    storage.delete(id);
+  async updateById(id: string, data: Partial<Omit<ProductEntity, 'id'>>): Promise<IProductDocument | null> {
+    return Product.findByIdAndUpdate(id, { $set: data }, { new: true }).exec();
+  },
+
+  async deleteById(id: string): Promise<IProductDocument | null> {
+    return Product.findByIdAndDelete(id).exec();
+  },
+
+  async deleteAll(): Promise<void> {
+    await Product.deleteMany({});
   },
 };

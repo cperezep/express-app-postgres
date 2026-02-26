@@ -1,25 +1,19 @@
 import type { ProductEntity } from '../entities/product.entity';
 import { NotFoundError } from '../utils/errors';
+import type { IProductDocument } from './product.model';
 import { productRepository } from './product.repository';
 
 export const productService = {
-  createProduct(productPartial: Omit<ProductEntity, 'id'>): ProductEntity {
-    const product = productRepository.create({
-      id: crypto.randomUUID(),
-      title: productPartial.title,
-      price: productPartial.price,
-      description: productPartial.description,
-    });
-
-    return product;
+  createProduct(productPartial: Omit<ProductEntity, 'id'>): Promise<IProductDocument> {
+    return productRepository.create(productPartial);
   },
 
-  getAllProducts() {
-    return productRepository.getAll();
+  getAllProducts(): Promise<IProductDocument[]> {
+    return productRepository.findAll();
   },
 
-  getProductById(id: string): ProductEntity {
-    const product = productRepository.findById(id);
+  async getProductById(id: string): Promise<IProductDocument> {
+    const product = await productRepository.findById(id);
 
     if (!product) {
       throw new NotFoundError('Product not found');
@@ -28,23 +22,23 @@ export const productService = {
     return product;
   },
 
-  updateProduct(id: string, productPartial: Partial<ProductEntity>) {
-    const product = productRepository.findById(id);
+  async updateProduct(id: string, productPartial: Partial<ProductEntity>): Promise<IProductDocument | undefined> {
+    const product = await productRepository.updateById(id, productPartial);
 
     if (!product) {
       throw new NotFoundError('Product not found');
     }
 
-    return productRepository.update(id, productPartial);
+    return product;
   },
 
-  deleteProduct(id: string) {
-    const product = productRepository.findById(id);
+  async deleteProduct(id: string): Promise<IProductDocument> {
+    const product = await productRepository.deleteById(id);
 
     if (!product) {
       throw new NotFoundError('Product not found');
     }
 
-    productRepository.delete(id);
+    return product;
   },
 };

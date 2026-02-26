@@ -1,4 +1,4 @@
-import { ProductEntity } from '../entities/product.entity';
+import type { ProductEntity } from '../entities/product.entity';
 
 // Please DO NOT change predefined products here. You are welcome to add new if you want.
 

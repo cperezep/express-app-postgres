@@ -16,14 +16,14 @@ export const createProductHandler = [
   asyncHandler(async (req: Request<{}, {}, CreateProductInput>, res: Response) => {
     const { title, price, description } = req.body;
 
-    const product = productService.createProduct({ title, price, description });
+    const product = await productService.createProduct({ title, price, description });
 
     res.status(201).json({ data: product });
   }),
 ];
 
 export const getProductsHandler = asyncHandler(async (req, res) => {
-  const products = productService.getAllProducts();
+  const products = await productService.getAllProducts();
 
   res.status(200).json({ data: products });
 });
@@ -33,7 +33,7 @@ export const getProductHandler = [
   asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params as ProductIdParam;
 
-    const product = productService.getProductById(id);
+    const product = await productService.getProductById(id);
 
     res.status(200).json({ data: product });
   }),
@@ -46,7 +46,7 @@ export const updateProductHandler = [
     const { id } = req.params as ProductIdParam;
     const body = req.body as UpdateProductInput;
 
-    const product = productService.updateProduct(id, body);
+    const product = await productService.updateProduct(id, body);
 
     res.status(200).json({ data: product });
   }),
@@ -57,7 +57,7 @@ export const deleteProductHandler = [
   asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params as ProductIdParam;
 
-    productService.deleteProduct(id);
+    await productService.deleteProduct(id);
 
     res.status(200).json();
   }),
