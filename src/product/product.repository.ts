@@ -17,11 +17,11 @@ export const productRepository = {
   },
 
   async findById(id: string): Promise<IProductDocument | null> {
-    return Product.findById(id).exec();
+    return Product.findById(id).lean().exec();
   },
 
   async findAll(): Promise<IProductDocument[]> {
-    return Product.find().exec();
+    return Product.find().lean().exec();
   },
 
   async updateById(id: string, data: Partial<Omit<ProductEntity, 'id'>>): Promise<IProductDocument | null> {
