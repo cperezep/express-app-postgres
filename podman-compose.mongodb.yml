@@ -3,9 +3,13 @@ services:
   mongo:
     image: 'mongo'
     container_name: 'nodegmp-nosql'
-    restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=nodegmp
     ports:
       - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
