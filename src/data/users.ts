@@ -1,4 +1,4 @@
-import { UserEntity, UserRole } from '../entities/user.entity';
+import { type UserEntity, UserRole } from '../entities/user.entity';
 
 // Please DO NOT change predefined users here. You are welcome to add new if you want.
 
