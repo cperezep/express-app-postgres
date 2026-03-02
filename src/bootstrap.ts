@@ -2,7 +2,7 @@ import type { Server } from 'node:http';
 import type { Socket } from 'node:net';
 import bodyParser from 'body-parser';
 import express from 'express';
-import { connect } from './env/mongodb-connection';
+import { connect, disconnect } from './env/orm';
 import { errorHandler } from './middlewares/error.middleware';
 import { requestLogger } from './middlewares/request-logger';
 import productRoutes from './product/product.routes';
@@ -23,7 +23,23 @@ app.use(errorHandler);
  * @param {Socket[]} connections - List of active connections to be closed.
  * @param {string} signal - The signal received that initiated the shutdown.
  */
-export const shutdown = (_server: Server, _connections: Socket[], _signal: string) => {};
+export const shutdown = async (server: Server, connections: Socket[], signal: string) => {
+  // biome-ignore lint: intentional debugging
+  console.log(`Received ${signal}. Shutting down gracefully...`);
+
+  for (const connection of connections) {
+    connection.destroy();
+  }
+
+  server.close(async () => {
+    // biome-ignore lint: intentional debugging
+    console.log('HTTP server closed');
+    await disconnect();
+    // biome-ignore lint: intentional debugging
+    console.log('Database connection closed');
+    process.exit(0);
+  });
+};
 
 const PORT = 8000;
 
@@ -36,10 +52,10 @@ export const bootstrap = async () => {
   try {
     await connect();
     // biome-ignore lint: intentional debugging
-    console.log('Connected to MongoDB');
+    console.log('Connected to PostgreSQL');
   } catch (error) {
     // biome-ignore lint: intentional debugging
-    console.error('Failed to connect to MongoDB:', error);
+    console.error('Failed to connect to PostgreSQL:', error);
     process.exit(1);
   }
 

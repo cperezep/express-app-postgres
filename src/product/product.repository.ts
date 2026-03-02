@@ -1,38 +1,65 @@
-import type { ProductEntity } from '../entities/product.entity';
-import { type IProductDocument, Product } from './product.model';
+import { EntityRepository } from '@mikro-orm/postgresql';
+import { getEntityManager } from '../env/orm';
+import { Product } from './product.entity';
+
+class ProductEntityRepository extends EntityRepository<Product> {}
+
+const getRepository = (): ProductEntityRepository => {
+  return getEntityManager().getRepository(Product) as ProductEntityRepository;
+};
 
 export const productRepository = {
-  async create(data: Omit<ProductEntity, 'id'>): Promise<IProductDocument> {
-    const productDocument = new Product(data);
-    return productDocument.save();
+  async create(data: Omit<Product, 'id'>): Promise<Product> {
+    const repo = getRepository();
+    const product = repo.create(data);
+    repo.getEntityManager().persist(product);
+    await repo.getEntityManager().flush();
+
+    return product;
   },
 
   // For bulk seeding/tests
-  async createManyWithIds(data: ProductEntity[]): Promise<IProductDocument[]> {
-    const products = data.map(({ id, ...rest }) => ({
-      _id: id,
-      ...rest,
-    }));
-    return Product.insertMany(products);
+  async createManyWithIds(data: Product[]): Promise<Product[]> {
+    const repo = getRepository();
+    const products = data.map((p) => repo.create(p));
+    repo.getEntityManager().persist(products);
+    await repo.getEntityManager().flush();
+
+    return products;
   },
 
-  async findById(id: string): Promise<IProductDocument | null> {
-    return Product.findById(id).lean().exec();
+  async findById(id: string): Promise<Product | null> {
+    return getRepository().findOne({ id });
   },
 
-  async findAll(): Promise<IProductDocument[]> {
-    return Product.find().lean().exec();
+  async findAll(): Promise<Product[]> {
+    return getRepository().findAll();
   },
 
-  async updateById(id: string, data: Partial<Omit<ProductEntity, 'id'>>): Promise<IProductDocument | null> {
-    return Product.findByIdAndUpdate(id, { $set: data }, { new: true }).exec();
+  async updateById(id: string, data: Partial<Omit<Product, 'id'>>): Promise<Product | null> {
+    const repo = getRepository();
+    const product = await repo.findOne({ id });
+    if (!product) return null;
+
+    repo.getEntityManager().assign(product, data);
+    await repo.getEntityManager().flush();
+
+    return product;
   },
 
-  async deleteById(id: string): Promise<IProductDocument | null> {
-    return Product.findByIdAndDelete(id).exec();
+  async deleteById(id: string): Promise<Product | null> {
+    const repo = getRepository();
+    const product = await repo.findOne({ id });
+    if (!product) return null;
+
+    repo.getEntityManager().remove(product);
+    await repo.getEntityManager().flush();
+
+    return product;
   },
 
   async deleteAll(): Promise<void> {
-    await Product.deleteMany({});
+    const repo = getRepository();
+    await repo.getEntityManager().nativeDelete(Product, {});
   },
 };

@@ -1,18 +1,17 @@
-import type { ProductEntity } from '../entities/product.entity';
 import { NotFoundError } from '../utils/errors';
-import type { IProductDocument } from './product.model';
+import type { Product } from './product.entity';
 import { productRepository } from './product.repository';
 
 export const productService = {
-  createProduct(productPartial: Omit<ProductEntity, 'id'>): Promise<IProductDocument> {
+  createProduct(productPartial: Omit<Product, 'id'>): Promise<Product> {
     return productRepository.create(productPartial);
   },
 
-  getAllProducts(): Promise<IProductDocument[]> {
+  getAllProducts(): Promise<Product[]> {
     return productRepository.findAll();
   },
 
-  async getProductById(id: string): Promise<IProductDocument> {
+  async getProductById(id: string): Promise<Product> {
     const product = await productRepository.findById(id);
 
     if (!product) {
@@ -22,7 +21,7 @@ export const productService = {
     return product;
   },
 
-  async updateProduct(id: string, productPartial: Partial<ProductEntity>): Promise<IProductDocument> {
+  async updateProduct(id: string, productPartial: Partial<Product>): Promise<Product> {
     const product = await productRepository.updateById(id, productPartial);
 
     if (!product) {
@@ -32,7 +31,7 @@ export const productService = {
     return product;
   },
 
-  async deleteProduct(id: string): Promise<IProductDocument> {
+  async deleteProduct(id: string): Promise<Product> {
     const product = await productRepository.deleteById(id);
 
     if (!product) {
