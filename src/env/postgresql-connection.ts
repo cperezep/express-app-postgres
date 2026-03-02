@@ -11,11 +11,11 @@
 
 // Local development
 
-// export const DB_USER = 'node_gmp';
-// export const DB_PASSWORD = 'password123';
-// export const DB_NAME = 'node_gmp';
-// export const DB_HOST = 'localhost';
-// export const DB_PORT = 5432;
+/* export const DB_USER = 'node_gmp';
+export const DB_PASSWORD = 'password123';
+export const DB_NAME = 'node_gmp';
+export const DB_HOST = 'localhost';
+export const DB_PORT = 5432; */
 
 // Autocode
 
