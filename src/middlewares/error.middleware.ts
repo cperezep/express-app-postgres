@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { NotFoundError, UnauthorizedError, ValidationError } from '../utils/errors';
+import { ConflictError, ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '../utils/errors';
 
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction): void {
   // biome-ignore lint: intentional debugging
@@ -15,12 +15,22 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   }
 
   if (err instanceof ValidationError) {
-    res.status(400).json({ error: err.message, code: 'VALIDATION_ERROR', errors: err.errors });
+    res.status(400).json({ error: err.message });
     return;
   }
 
   if (err instanceof UnauthorizedError) {
-    res.status(401).json({ error: err.message, code: 'UNAUTHORIZED' });
+    res.status(401).json({ error: err.message });
+    return;
+  }
+
+  if (err instanceof ForbiddenError) {
+    res.status(403).json({ error: err.message });
+    return;
+  }
+
+  if (err instanceof ConflictError) {
+    res.status(409).json({ error: err.message });
     return;
   }
 
