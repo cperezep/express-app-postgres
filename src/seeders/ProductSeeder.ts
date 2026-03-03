@@ -5,6 +5,8 @@ import { Product } from '../product/product.entity';
 
 export class ProductSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
+    await em.nativeDelete(Product, {});
+
     for (const productData of products) {
       const existingProduct = await em.findOne(Product, { id: productData.id });
 

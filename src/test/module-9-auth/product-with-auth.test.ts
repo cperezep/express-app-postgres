@@ -1,22 +1,20 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
-
-import {
-  productResponseSchema,
-  errorResponseSchema,
-  productsResponseSchema,
-  registerUserSchema,
-  loginUserSchema,
-} from '../helpers/schemas';
+import { UserRole } from '../../entities/user.entity';
 import {
   API_HOST,
   AUTH_API_URL,
-  PRODUCTS_API_URL,
   PRODUCT_ID,
-  RANDOM_TOKEN,
+  PRODUCTS_API_URL,
   RANDOM_PRODUCT,
+  RANDOM_TOKEN,
 } from '../helpers/constants';
-import { UserRole } from '../../entities/user.entity';
+import {
+  errorResponseSchema,
+  loginUserSchema,
+  productResponseSchema,
+  productsResponseSchema,
+  registerUserSchema,
+} from '../helpers/schemas';
 
 let adminToken = '';
 let userToken = '';
