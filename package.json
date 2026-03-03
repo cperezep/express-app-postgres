@@ -15,7 +15,7 @@
     "test:module-9-auth": "jest --testPathPattern=./src/test/module-9-auth",
     "test:module-10-production-ready-app": "jest --testPathPattern=./src/test/module-10-production-ready-app",
     "db:migrations:create": "npx mikro-orm migration:create",
-    "pretest": "ts-node src/scripts/setup-database.ts",
+    "pretest": "npm start && ts-node src/scripts/setup-database.ts",
     "posttest": "npm stop",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",

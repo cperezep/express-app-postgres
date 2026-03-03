@@ -17,12 +17,11 @@ const mikroOrmConfig: Options<PostgreSqlDriver> = {
   extensions: [Migrator, SeedManager],
   migrations: {
     path: './src/migrations',
-    pathTs: './src/migrations',
     transactional: true,
     allOrNothing: true,
     snapshot: false,
   },
-  seeder: { path: './src/seeders', pathTs: './src/seeders' },
+  seeder: { path: './src/seeders' },
 };
 
 export default mikroOrmConfig;

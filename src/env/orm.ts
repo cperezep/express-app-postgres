@@ -1,4 +1,4 @@
-import { type EntityClass, type EntityManager, type EntityRepository, MikroORM } from '@mikro-orm/postgresql';
+import { type EntityManager, MikroORM } from '@mikro-orm/postgresql';
 import config from '../mikro-orm.config';
 
 let orm: MikroORM;
@@ -19,10 +19,6 @@ export function getORM(): MikroORM {
 
 export function getEntityManager(): EntityManager {
   return getORM().em.fork();
-}
-
-export function getRepository<T extends object>(entity: EntityClass<T>): EntityRepository<T> {
-  return getEntityManager().getRepository(entity) as EntityRepository<T>;
 }
 
 export async function disconnect(): Promise<void> {

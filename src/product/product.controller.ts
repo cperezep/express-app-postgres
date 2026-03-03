@@ -21,7 +21,7 @@ export const createProductHandler = [
   }),
 ];
 
-export const getProductsHandler = asyncHandler(async (req, res) => {
+export const getProductsHandler = asyncHandler(async (_req, res) => {
   const products = await productService.getAllProducts();
 
   res.status(200).json({ data: products });

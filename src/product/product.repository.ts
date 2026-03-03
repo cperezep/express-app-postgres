@@ -1,11 +1,9 @@
-import { EntityRepository } from '@mikro-orm/postgresql';
+import type { EntityRepository } from '@mikro-orm/postgresql';
 import { getEntityManager } from '../env/orm';
 import { Product } from './product.entity';
 
-class ProductEntityRepository extends EntityRepository<Product> {}
-
-const getRepository = (): ProductEntityRepository => {
-  return getEntityManager().getRepository(Product) as ProductEntityRepository;
+const getRepository = (): EntityRepository<Product> => {
+  return getEntityManager().getRepository(Product);
 };
 
 export const productRepository = {

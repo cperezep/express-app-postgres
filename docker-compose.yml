@@ -4,9 +4,9 @@ services:
     image: 'postgres:16'
     container_name: 'nodegmp-postgres'
     environment:
-      - POSTGRES_USER=node_gmp
-      - POSTGRES_PASSWORD=password123
-      - POSTGRES_DB=node_gmp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     restart: always
     ports:
       - '5432:5432'
