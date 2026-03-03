@@ -4,19 +4,19 @@ export const users: UserEntity[] = [
   {
     id: '7ed47722-4381-4d60-8619-7cc867e1f7ae',
     email: 'admin@admin.admin',
-    password: '$2b$10$23Y3t/3ojY5/OMn5YMKtYec6fM1yE0POTNuWS3dmwOnbx.BL.pxgK', // raw value = admin
+    password: '$2b$10$nE6HBgFchcyW0jzD.F.d8OV65aTEuKSf32qDfhCCgKw3bhuybp4hm', // raw value = adminpassword
     role: UserRole.ADMIN,
   },
   {
     id: '087464cf-c88e-408b-889c-d9b881ca473d',
     email: 'bob@epam.com',
-    password: '$2b$10$HVongz4L5WKjekytlVejjug8t9X4YO5n34o1ni/21M8hD7B/NUOiC', // raw value = bob
+    password: '$2b$10$zxxKl2EdqCDrEVHJnHNmCOP0YwmJz.zgtyaGkhoPEbIa8sntDc1X.', // raw value = bobpassword
     role: UserRole.USER,
   },
   {
     id: '4e264f4b-2d65-4172-add3-ae9f185b00f8',
     email: 'alice@epam.com',
-    password: '$2b$10$ruw917BEeUhJfDYtGAc4FOun0Hond2dV1Epk7sWSxQeQUyFIUi1JO', // raw value = alice
+    password: '$2b$10$z/9gEajoW/Ra9ppAIV/YvuCArGAMFLW/GD6FD/uKah7Odn2SJRj7a', // raw value = alicepassword
     role: UserRole.USER,
   },
 ];

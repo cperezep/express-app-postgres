@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import type { UserRole } from '../entities/user.entity';
-import { ConflictError, ForbiddenError, NotFoundError, UnauthorizedError } from '../utils/errors';
+import { ConflictError, NotFoundError, UnauthorizedError } from '../utils/errors';
 import type { LoginInput, RegisterInput } from './auth.schema';
 import type { User } from './user.entity';
 import { userRepository } from './user.repository';
@@ -79,7 +79,7 @@ export const authService = {
       }
 
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new ForbiddenError('Invalid token');
+        throw new UnauthorizedError('Invalid token');
       }
 
       throw new UnauthorizedError('Failed to verify token');

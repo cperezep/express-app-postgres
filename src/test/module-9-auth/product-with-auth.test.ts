@@ -40,7 +40,7 @@ describe('Authentication API', () => {
     it('should register a new user', async () => {
       const newUser = {
         email: 'alex@epam.com',
-        password: 'alex',
+        password: 'alexpassword',
         role: UserRole.USER,
       };
 
@@ -56,7 +56,7 @@ describe('Authentication API', () => {
     it('should return 400 when email is not valid', async () => {
       const newUser = {
         email: 'invalid_email',
-        password: 'password123',
+        password: 'invalid-password',
         role: UserRole.USER,
       };
 
@@ -87,7 +87,7 @@ describe('Authentication API', () => {
     it('should return 409 when user with such email already exists', async () => {
       const newUser = {
         email: 'bob@epam.com',
-        password: 'bob',
+        password: 'bobpassword',
         role: UserRole.USER,
       };
 
@@ -107,7 +107,7 @@ describe('Authentication API', () => {
         .post(`${AUTH_API_URL}/login`)
         .send({
           email: 'admin@admin.admin',
-          password: 'admin',
+          password: 'adminpassword',
         })
         .expect('Content-Type', /json/)
         .expect(200);
@@ -122,7 +122,7 @@ describe('Authentication API', () => {
         .post(`${AUTH_API_URL}/login`)
         .send({
           email: 'bob@epam.com',
-          password: 'bob',
+          password: 'bobpassword',
         })
         .expect('Content-Type', /json/)
         .expect(200);
@@ -137,7 +137,7 @@ describe('Authentication API', () => {
         .post(`${AUTH_API_URL}/login`)
         .send({
           email: 'ann@epam.com',
-          password: 'ann',
+          password: 'annpassword',
         })
         .expect('Content-Type', /json/)
         .expect(401);
@@ -197,12 +197,12 @@ describe('Products /api/products with auth', () => {
       await errorResponseSchema.validateAsync(body);
     });
 
-    it('should return 403 if invalid token is provided', async () => {
+    it('should return 401 if invalid token is provided', async () => {
       const { body } = await request(API_HOST)
         .get(PRODUCTS_API_URL)
         .set('Authorization', 'Bearer invalid-token')
         .expect('Content-Type', /json/)
-        .expect(403);
+        .expect(401);
 
       await errorResponseSchema.validateAsync(body);
     });

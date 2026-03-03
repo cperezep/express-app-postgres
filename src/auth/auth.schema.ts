@@ -3,8 +3,8 @@ import { UserRole } from '../entities/user.entity';
 
 export const registerSchema = z.object({
   email: z.email('Invalid email'),
-  password: z.string().min(1, 'Password is required'),
-  role: z.enum(UserRole, 'Role must be either "admin" or "user"'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
+  role: z.enum(UserRole, { message: 'Role must be either "admin" or "user"' }),
 });
 
 export const loginSchema = z.object({

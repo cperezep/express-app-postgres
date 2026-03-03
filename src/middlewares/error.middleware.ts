@@ -10,27 +10,27 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   });
 
   if (err instanceof NotFoundError) {
-    res.status(404).json({ error: err.message });
+    res.status(404).json({ error: err.message, code: 'NOT_FOUND' });
     return;
   }
 
   if (err instanceof ValidationError) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message, code: 'VALIDATION_ERROR', errors: err.errors });
     return;
   }
 
   if (err instanceof UnauthorizedError) {
-    res.status(401).json({ error: err.message });
+    res.status(401).json({ error: err.message, code: 'UNAUTHORIZED' });
     return;
   }
 
   if (err instanceof ForbiddenError) {
-    res.status(403).json({ error: err.message });
+    res.status(403).json({ error: err.message, code: 'FORBIDDEN' });
     return;
   }
 
   if (err instanceof ConflictError) {
-    res.status(409).json({ error: err.message });
+    res.status(409).json({ error: err.message, code: 'CONFLICT' });
     return;
   }
 

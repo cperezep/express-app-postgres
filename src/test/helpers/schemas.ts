@@ -34,6 +34,8 @@ export const loginUserSchema = Joi.object({
 
 export const errorResponseSchema = Joi.object({
   error: Joi.string().required(),
+  code: Joi.string().required(),
+  errors: Joi.array().items(Joi.object()).optional(),
 });
 
 export const productSchema = Joi.object({
