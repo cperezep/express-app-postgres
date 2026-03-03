@@ -2,6 +2,7 @@ import type { Server } from 'node:http';
 import type { Socket } from 'node:net';
 import bodyParser from 'body-parser';
 import express from 'express';
+import authRoutes from './auth/auth.routes';
 import { connect, disconnect } from './env/orm';
 import { errorHandler } from './middlewares/error.middleware';
 import { requestLogger } from './middlewares/request-logger';
@@ -11,6 +12,8 @@ export const app = express();
 
 app.use(bodyParser.json());
 app.use(requestLogger);
+
+app.use('/api/auth', authRoutes);
 
 app.use('/api/products', productRoutes);
 
