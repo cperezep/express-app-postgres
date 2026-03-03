@@ -1,9 +1,9 @@
-import type { UserEntity } from '../entities/user.entity';
+import type { TokenPayload } from '../auth/auth.service';
 
 declare global {
   namespace Express {
     export interface Request {
-      user: Omit<UserEntity, 'password'>;
+      user: TokenPayload;
     }
   }
 }
