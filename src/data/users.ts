@@ -1,7 +1,5 @@
 import { type UserEntity, UserRole } from '../entities/user.entity';
 
-// Please DO NOT change predefined users here. You are welcome to add new if you want.
-
 export const users: UserEntity[] = [
   {
     id: '7ed47722-4381-4d60-8619-7cc867e1f7ae',

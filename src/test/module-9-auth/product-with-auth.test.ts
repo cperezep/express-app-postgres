@@ -194,10 +194,7 @@ describe('Products /api/products with auth', () => {
     });
 
     it('should return 401 if token is not provided', async () => {
-      const { body } = await request(API_HOST)
-        .get(PRODUCTS_API_URL)
-        .expect('Content-Type', /json/)
-        .expect(401);
+      const { body } = await request(API_HOST).get(PRODUCTS_API_URL).expect('Content-Type', /json/).expect(401);
 
       await errorResponseSchema.validateAsync(body);
     });

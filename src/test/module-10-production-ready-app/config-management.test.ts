@@ -17,36 +17,44 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
     process.env.NODE_ENV = 'production';
 
     const { config } = require('../../config');
-    expect(config).toEqual(expect.objectContaining({
-      PORT: '8000',
-      NODE_ENV: 'production',
-      LOG_LEVEL: 'info',
-    }));
+    expect(config).toEqual(
+      expect.objectContaining({
+        PORT: '8000',
+        NODE_ENV: 'production',
+        LOG_LEVEL: 'info',
+      }),
+    );
   });
 
   test('should load .env.test when NODE_ENV is test', () => {
     process.env.NODE_ENV = 'test';
 
     const { config } = require('../../config');
-    expect(config).toEqual(expect.objectContaining({
-      PORT: '8000',
-      NODE_ENV: 'test',
-      LOG_LEVEL: 'debug',
-    }));
+    expect(config).toEqual(
+      expect.objectContaining({
+        PORT: '8000',
+        NODE_ENV: 'test',
+        LOG_LEVEL: 'debug',
+      }),
+    );
   });
 
   test('should fallback to .env.test when NODE_ENV is not defined', () => {
-    const { config: { NODE_ENV } } = require('../../config');
+    const {
+      config: { NODE_ENV },
+    } = require('../../config');
     expect(NODE_ENV).toEqual('test');
   });
 
   test('should use default values for config when environment variables are missing', () => {
     const { config } = require('../../config');
-    expect(config).toEqual(expect.objectContaining({
-      PORT: '8000',
-      NODE_ENV: 'test',
-      LOG_LEVEL: 'debug',
-    }));
+    expect(config).toEqual(
+      expect.objectContaining({
+        PORT: '8000',
+        NODE_ENV: 'test',
+        LOG_LEVEL: 'debug',
+      }),
+    );
   });
 
   test('should throw an error if a required environment variable is missing', () => {

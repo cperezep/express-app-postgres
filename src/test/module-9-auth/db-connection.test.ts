@@ -1,7 +1,5 @@
 import { Client } from 'pg';
-import {
-  DB_NAME, DB_HOST, DB_PORT, DB_PASSWORD, DB_USER,
-} from '../../env/postgresql-connection';
+import { DB_NAME, DB_HOST, DB_PORT, DB_PASSWORD, DB_USER } from '../../env/postgresql-connection';
 
 const pgClient = new Client({
   user: DB_USER,

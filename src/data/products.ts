@@ -1,7 +1,5 @@
 import type { ProductEntity } from '../entities/product.entity';
 
-// Please DO NOT change predefined products here. You are welcome to add new if you want.
-
 export const products: ProductEntity[] = [
   {
     id: '51422fcd-0366-4186-ad5b-c23059b6f64f',

@@ -1,12 +1,10 @@
-/* eslint-disable no-shadow */
-
 export enum UserRole {
   ADMIN = 'admin',
   USER = 'user',
 }
 
 export interface UserEntity {
-  id: string; // uuid
+  id: string;
   email: string;
   password: string;
   role: UserRole;
