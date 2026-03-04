@@ -12,7 +12,7 @@ import { productService } from './product.service';
 
 export const createProductHandler = [
   validate(createProductSchema),
-  asyncHandler(async (req: Request<{}, {}, CreateProductInput>, res: Response) => {
+  asyncHandler(async (req: Request<object, object, CreateProductInput>, res: Response) => {
     const { title, price, description } = req.body;
 
     const product = await productService.createProduct({ title, price, description });

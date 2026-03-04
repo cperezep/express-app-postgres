@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
 import { API_HOST, PRODUCT_ID, PRODUCTS_API_URL, RANDOM_PRODUCT } from '../helpers/constants';
 import { errorResponseSchema, productResponseSchema, productsResponseSchema } from '../helpers/schemas';

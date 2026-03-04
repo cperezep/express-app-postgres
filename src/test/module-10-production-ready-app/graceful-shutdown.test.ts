@@ -14,7 +14,7 @@ describe('[Production-Ready Node.js Applications] Graceful shutdown', () => {
 
   beforeEach(() => {
     mockServer = {
-      close: jest.fn((callback) => callback && callback()),
+      close: jest.fn((callback) => callback?.()),
       on: jest.fn(),
     } as unknown as Server;
 

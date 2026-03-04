@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
-
-import { productResponseSchema, errorResponseSchema, productsResponseSchema } from '../helpers/schemas';
-import { API_HOST, PRODUCTS_API_URL, PRODUCT_ID, RANDOM_PRODUCT } from '../helpers/constants';
+import { API_HOST, PRODUCT_ID, PRODUCTS_API_URL, RANDOM_PRODUCT } from '../helpers/constants';
+import { errorResponseSchema, productResponseSchema, productsResponseSchema } from '../helpers/schemas';
 
 describe('Products /api/products', () => {
   describe('POST /api/products', () => {
