@@ -1,5 +1,5 @@
-import { Server } from 'http';
-import { Socket } from 'net';
+import type { Server } from 'node:http';
+import type { Socket } from 'node:net';
 import { shutdown } from '../../bootstrap';
 
 jest.mock('../../utils/logger', () => ({

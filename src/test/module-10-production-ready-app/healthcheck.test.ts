@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import request from 'supertest';
 import { API_HOST } from '../helpers/constants';
 

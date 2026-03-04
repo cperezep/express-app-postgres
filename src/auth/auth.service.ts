@@ -7,7 +7,7 @@ import type { LoginInput, RegisterInput } from './auth.schema';
 import type { User } from './user.entity';
 import { userRepository } from './user.repository';
 
-const SECRET_KEY = config.secretKey;
+const SECRET_KEY = config.SECRET_KEY;
 const SALT_ROUNDS = 10;
 
 export interface TokenPayload {

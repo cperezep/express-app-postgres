@@ -3,13 +3,6 @@ import config from '../mikro-orm.config';
 
 let orm: MikroORM;
 
-export async function connect(): Promise<MikroORM> {
-  if (!orm) {
-    orm = await MikroORM.init(config);
-  }
-  return orm;
-}
-
 export function getORM(): MikroORM {
   if (!orm) {
     throw new Error('ORM not initialized. Call initORM() first.');
@@ -19,6 +12,22 @@ export function getORM(): MikroORM {
 
 export function getEntityManager(): EntityManager {
   return getORM().em.fork();
+}
+
+export async function checkDatabaseConnection(): Promise<void> {
+  try {
+    const em = getEntityManager();
+    await em.getConnection().execute('SELECT 1');
+  } catch (_error) {
+    throw new Error('Database connection failed');
+  }
+}
+
+export async function connect(): Promise<MikroORM> {
+  if (!orm) {
+    orm = await MikroORM.init(config);
+  }
+  return orm;
 }
 
 export async function disconnect(): Promise<void> {

@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
 import { ConflictError, ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '../utils/errors';
+import logger from '../utils/logger';
 
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction): void {
-  // biome-ignore lint: intentional debugging
-  console.error(`[Error] ${err.message}`, {
+  logger.error(`[Error] ${err.message}`, {
     stack: err.stack,
     path: req.path,
     method: req.method,
@@ -35,5 +35,5 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   }
 
   // Default to 500 for unknown errors
-  res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_SERVER_ERROR' });
+  res.status(500).json({ error: err?.message ?? 'Internal server error', code: 'INTERNAL_SERVER_ERROR' });
 }

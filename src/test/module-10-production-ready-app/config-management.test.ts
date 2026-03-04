@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-require-imports */
-/* eslint-disable global-require */
 import { validateEnv } from '../../config';
 
 describe('[Production-Ready Node.js Applications] Configuration and Environment Validation', () => {
