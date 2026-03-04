@@ -1,8 +1,10 @@
+import './config';
 import type { Server } from 'node:http';
 import type { Socket } from 'node:net';
 import bodyParser from 'body-parser';
 import express from 'express';
 import authRoutes from './auth/auth.routes';
+import { config } from './config';
 import { connect, disconnect } from './env/orm';
 import { errorHandler } from './middlewares/error.middleware';
 import { requestLogger } from './middlewares/request-logger';
@@ -44,7 +46,7 @@ export const shutdown = async (server: Server, connections: Socket[], signal: st
   });
 };
 
-const PORT = 8000;
+const PORT = config.port;
 
 /**
  * Initializes and starts the HTTP server, and sets up handling for system signals

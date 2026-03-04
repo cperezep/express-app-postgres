@@ -1,15 +1,37 @@
 import dotenv from 'dotenv';
+import { envSchema } from './env';
 
-/**
- * TODO: Module 10 - Production-Ready Node.js Applications
- * Configuration object containing the necessary environment variables for the application.
- * Provides defaults for each variable if not specified in the environment.
- */
-export const config = {};
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV ?? 'test'}`,
+});
 
-/**
- * TODO: Module 10 - Production-Ready Node.js Applications
- * Validates the presence of required environment variables.
- * @throws {Error} If a required environment variable is missing.
- */
-export const validateEnv = () => {};
+const parsed = envSchema.safeParse(process.env);
+
+if (!parsed.success) {
+  // biome-ignore lint: intentional debugging
+  console.error('❌ Invalid environment variables');
+
+  for (const issue of parsed.error.issues) {
+    // biome-ignore lint: intentional debugging
+    console.error(`- ${issue.path.join('.')}: ${issue.message}`);
+  }
+
+  process.exit(1);
+}
+
+const env = parsed.data;
+
+export const config = {
+  port: env.PORT,
+  nodeEnv: env.NODE_ENV,
+  logLevel: env.LOG_LEVEL,
+  secretKey: env.SECRET_KEY,
+
+  db: {
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    name: env.DB_NAME,
+    user: env.DB_USER,
+    password: env.DB_PASSWORD,
+  },
+};
