@@ -17,7 +17,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     const duration = Date.now() - startTime;
     const { method, originalUrl } = req;
 
-    logger.info(`${method} ${originalUrl} - ${duration}ms`);
+    logger.info(`${method} ${originalUrl} ${res.statusCode} - ${duration}ms`);
   });
 
   next();
