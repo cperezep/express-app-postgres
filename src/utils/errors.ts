@@ -1,37 +1,43 @@
-export class NotFoundError extends Error {
-  constructor(message: string) {
+export class AppError extends Error {
+  constructor(
+    message: string,
+    public statusCode: number,
+  ) {
     super(message);
-    this.name = 'NotFoundError';
+    this.name = this.constructor.name;
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-export class ValidationError extends Error {
+export class NotFoundError extends AppError {
+  constructor(message: string) {
+    super(message, 404);
+  }
+}
+
+export class ValidationError extends AppError {
   constructor(
     message: string,
     public errors: Record<string, unknown>[] = [],
   ) {
-    super(message);
-    this.name = 'ValidationError';
+    super(message, 400);
   }
 }
 
-export class UnauthorizedError extends Error {
+export class UnauthorizedError extends AppError {
   constructor(message: string) {
-    super(message);
-    this.name = 'UnauthorizedError';
+    super(message, 401);
   }
 }
 
-export class ForbiddenError extends Error {
+export class ForbiddenError extends AppError {
   constructor(message: string) {
-    super(message);
-    this.name = 'ForbiddenError';
+    super(message, 403);
   }
 }
 
-export class ConflictError extends Error {
+export class ConflictError extends AppError {
   constructor(message: string) {
-    super(message);
-    this.name = 'ConflictError';
+    super(message, 409);
   }
 }
