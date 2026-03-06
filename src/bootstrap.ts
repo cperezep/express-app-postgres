@@ -1,8 +1,11 @@
-import './config';
 import type { Server } from 'node:http';
 import type { Socket } from 'node:net';
 import bodyParser from 'body-parser';
+import compression from 'compression';
+import cors from 'cors';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import authRoutes from './auth/auth.routes';
 import { config } from './config';
 import { connect, disconnect } from './env/orm';
@@ -14,8 +17,22 @@ import logger from './utils/logger';
 
 export const app = express();
 
+app.use(helmet());
+app.use(cors({ origin: config.ALLOWED_ORIGINS }));
+app.use(compression());
 app.use(bodyParser.json());
 app.use(requestLogger);
+
+// Global limiter — broad DoS protection for all routes
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 500,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Too many requests, please try again later.', code: 'TOO_MANY_REQUESTS' },
+  }),
+);
 
 app.use('/api/health', healthRoutes);
 
