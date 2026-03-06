@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserRole } from '../entities/user.entity';
+import { UserRole } from './user.entity';
 
 export const registerSchema = z.object({
   email: z.email('Invalid email'),

@@ -1,6 +1,6 @@
-import type { ProductEntity } from '../entities/product.entity';
+import type { Product } from '../product/product.entity';
 
-export const products: ProductEntity[] = [
+export const products: Product[] = [
   {
     id: '51422fcd-0366-4186-ad5b-c23059b6f64f',
     title: 'Book',

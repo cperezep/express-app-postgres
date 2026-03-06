@@ -1,6 +1,6 @@
-import { type UserEntity, UserRole } from '../entities/user.entity';
+import { type User, UserRole } from '../auth/user.entity';
 
-export const users: UserEntity[] = [
+export const users: User[] = [
   {
     id: '7ed47722-4381-4d60-8619-7cc867e1f7ae',
     email: 'admin@admin.admin',

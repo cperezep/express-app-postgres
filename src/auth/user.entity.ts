@@ -1,6 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
-import { UserRole } from '../entities/user.entity';
+
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
 
 @Entity({ tableName: 'users' })
 export class User {

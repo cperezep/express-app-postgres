@@ -1,4 +1,4 @@
-import { getEntityManager } from '../env/orm';
+import { getEntityManager } from '@/env/orm';
 import { User } from './user.entity';
 
 export const userRepository = {

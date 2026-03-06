@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { UserRole } from '../entities/user.entity';
+import { UserRole } from '../auth/user.entity';
 import { ForbiddenError, UnauthorizedError } from '../utils/errors';
 
 export const authorize = (...allowedRoles: UserRole[]) => {

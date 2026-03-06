@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { UserRole } from '../../entities/user.entity';
+import { UserRole } from '../../auth/user.entity';
 import {
   API_HOST,
   AUTH_API_URL,
