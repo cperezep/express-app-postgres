@@ -1,4 +1,4 @@
-import { type User, UserRole } from '../auth/user.entity';
+import { type User, UserRole } from '@/auth/user.entity';
 
 export const users: User[] = [
   {

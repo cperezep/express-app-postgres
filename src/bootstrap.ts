@@ -6,14 +6,14 @@ import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import authRoutes from './auth/auth.routes';
-import { config } from './config';
-import { connect, disconnect } from './env/orm';
-import healthRoutes from './health/health.routes';
-import { errorHandler } from './middlewares/error.middleware';
-import { requestLogger } from './middlewares/request-logger';
-import productRoutes from './product/product.routes';
-import logger from './utils/logger';
+import authRoutes from '@/auth/auth.routes';
+import { config } from '@/config';
+import { connect, disconnect } from '@/env/orm';
+import healthRoutes from '@/health/health.routes';
+import { errorHandler } from '@/middlewares/error.middleware';
+import { requestLogger } from '@/middlewares/request-logger';
+import productRoutes from '@/product/product.routes';
+import logger from '@/utils/logger';
 
 export const app = express();
 

@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import type { z } from 'zod';
-import { ValidationError } from '../utils/errors';
+import { ValidationError } from '@/utils/errors';
 
 type ValidateTarget = 'body' | 'query' | 'params';
 

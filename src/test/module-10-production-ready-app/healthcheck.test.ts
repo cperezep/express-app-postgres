@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { API_HOST } from '../helpers/constants';
+import { API_HOST } from '@/test/helpers/constants';
 
 describe('[Production-Ready Node.js Applications] Healthcheck endpoint /api/health', () => {
   test('should return 200 if server is up and running', async () => {

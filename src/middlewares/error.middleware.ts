@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import { config } from '../config';
-import { AppError, ValidationError } from '../utils/errors';
-import logger from '../utils/logger';
+import { config } from '@/config';
+import { AppError, ValidationError } from '@/utils/errors';
+import logger from '@/utils/logger';
 
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction): void {
   logger.error(`[Error] ${err.message}`, {

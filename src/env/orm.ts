@@ -1,5 +1,5 @@
 import { type EntityManager, MikroORM } from '@mikro-orm/postgresql';
-import config from '../mikro-orm.config';
+import config from '@/mikro-orm.config';
 
 let orm: MikroORM;
 

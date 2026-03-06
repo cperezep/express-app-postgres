@@ -1,5 +1,5 @@
-import { getEntityManager } from '../env/orm';
-import { Product } from './product.entity';
+import { getEntityManager } from '@/env/orm';
+import { Product } from '@/product/product.entity';
 
 export const productRepository = {
   async create(data: Omit<Product, 'id'>): Promise<Product> {

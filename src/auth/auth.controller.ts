@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
-import { validate } from '../middlewares/validate.middleware';
-import { asyncHandler } from '../utils/async-handler';
-import { loginSchema, registerSchema } from './auth.schema';
-import { authService } from './auth.service';
+import { loginSchema, registerSchema } from '@/auth/auth.schema';
+import { authService } from '@/auth/auth.service';
+import { validate } from '@/middlewares/validate.middleware';
+import { asyncHandler } from '@/utils/async-handler';
 
 export const registerHandler = [
   validate(registerSchema, 'body'),

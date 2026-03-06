@@ -1,5 +1,5 @@
+import { User } from '@/auth/user.entity';
 import { getEntityManager } from '@/env/orm';
-import { User } from './user.entity';
 
 export const userRepository = {
   async findById(id: string): Promise<User | null> {

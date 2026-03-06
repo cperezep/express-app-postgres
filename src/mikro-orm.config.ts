@@ -2,9 +2,9 @@ import type { Options } from '@mikro-orm/core';
 import { Migrator } from '@mikro-orm/migrations';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
-import { User } from './auth/user.entity';
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from './env/postgresql-connection';
-import { Product } from './product/product.entity';
+import { User } from '@/auth/user.entity';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from '@/env/postgresql-connection';
+import { Product } from '@/product/product.entity';
 
 const mikroOrmConfig: Options<PostgreSqlDriver> = {
   driver: PostgreSqlDriver,

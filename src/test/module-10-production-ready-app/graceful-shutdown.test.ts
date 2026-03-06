@@ -1,8 +1,8 @@
 import type { Server } from 'node:http';
 import type { Socket } from 'node:net';
-import { shutdown } from '../../bootstrap';
+import { shutdown } from '@/bootstrap';
 
-jest.mock('../../utils/logger', () => ({
+jest.mock('@/utils/logger', () => ({
   warn: jest.fn(),
   info: jest.fn(),
   error: jest.fn(),

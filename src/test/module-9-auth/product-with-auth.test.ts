@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { UserRole } from '../../auth/user.entity';
+import { UserRole } from '@/auth/user.entity';
 import {
   API_HOST,
   AUTH_API_URL,
@@ -7,14 +7,14 @@ import {
   PRODUCTS_API_URL,
   RANDOM_PRODUCT,
   RANDOM_TOKEN,
-} from '../helpers/constants';
+} from '@/test/helpers/constants';
 import {
   errorResponseSchema,
   loginUserSchema,
   productResponseSchema,
   productsResponseSchema,
   registerUserSchema,
-} from '../helpers/schemas';
+} from '@/test/helpers/schemas';
 
 let adminToken = '';
 let userToken = '';

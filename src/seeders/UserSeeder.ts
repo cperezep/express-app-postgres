@@ -1,7 +1,7 @@
 import type { EntityManager } from '@mikro-orm/postgresql';
 import { Seeder } from '@mikro-orm/seeder';
-import { User } from '../auth/user.entity';
-import { users } from '../data/users';
+import { User } from '@/auth/user.entity';
+import { users } from '@/data/users';
 
 export class UserSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {

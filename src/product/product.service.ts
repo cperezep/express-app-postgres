@@ -1,6 +1,6 @@
-import { NotFoundError } from '../utils/errors';
-import type { Product } from './product.entity';
-import { productRepository } from './product.repository';
+import type { Product } from '@/product/product.entity';
+import { productRepository } from '@/product/product.repository';
+import { NotFoundError } from '@/utils/errors';
 
 export const productService = {
   createProduct(productPartial: Omit<Product, 'id'>): Promise<Product> {

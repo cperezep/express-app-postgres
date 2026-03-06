@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { authenticate } from '../middlewares/authenticate.middleware';
-import { adminOnly } from '../middlewares/authorization.middleware';
+import { authenticate } from '@/middlewares/authenticate.middleware';
+import { adminOnly } from '@/middlewares/authorization.middleware';
 import {
   createProductHandler,
   deleteProductHandler,
   getProductHandler,
   getProductsHandler,
   updateProductHandler,
-} from './product.controller';
+} from '@/product/product.controller';
 
 const router = Router();
 

@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import { requestLogger } from '../../middlewares/request-logger';
-import logger from '../../utils/logger';
+import { requestLogger } from '@/middlewares/request-logger';
+import logger from '@/utils/logger';
 
-jest.mock('../../utils/logger', () => ({
+jest.mock('@/utils/logger', () => ({
   info: jest.fn(),
 }));
 

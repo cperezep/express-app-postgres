@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { config } from '../config';
-import { ConflictError, NotFoundError, UnauthorizedError } from '../utils/errors';
-import type { LoginInput, RegisterInput } from './auth.schema';
-import type { User, UserRole } from './user.entity';
-import { userRepository } from './user.repository';
+import type { LoginInput, RegisterInput } from '@/auth/auth.schema';
+import type { User, UserRole } from '@/auth/user.entity';
+import { userRepository } from '@/auth/user.repository';
+import { config } from '@/config';
+import { ConflictError, NotFoundError, UnauthorizedError } from '@/utils/errors';
 
 const SECRET_KEY = config.SECRET_KEY;
 const SALT_ROUNDS = 10;
