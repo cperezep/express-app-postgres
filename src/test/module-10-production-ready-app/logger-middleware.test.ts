@@ -20,6 +20,7 @@ describe('[Production-Ready Node.js Applications] RequestLogger Middleware', () 
           handler();
         }
       }),
+      statusCode: 200,
     } as unknown as Response;
 
     nextFunction = jest.fn();
@@ -29,6 +30,6 @@ describe('[Production-Ready Node.js Applications] RequestLogger Middleware', () 
     requestLogger(request, response, nextFunction);
 
     expect(nextFunction).toHaveBeenCalled();
-    expect(logger.info).toHaveBeenCalledWith(expect.stringMatching(/^GET \/test - \d+ms$/));
+    expect(logger.info).toHaveBeenCalledWith(expect.stringMatching(/^GET \/test \d{3} - \d+ms$/));
   });
 });

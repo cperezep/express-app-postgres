@@ -1,5 +1,3 @@
-import { validateEnv } from '../../config';
-
 describe('[Production-Ready Node.js Applications] Configuration and Environment Validation', () => {
   beforeEach(() => {
     jest.resetModules();
@@ -8,6 +6,7 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
 
   afterEach(() => {
     jest.restoreAllMocks();
+    jest.unmock('dotenv');
   });
 
   test('should load .env.production when NODE_ENV is production', () => {
@@ -55,17 +54,27 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
   });
 
   test('should throw an error if a required environment variable is missing', () => {
+    jest.doMock('dotenv', () => ({ config: jest.fn() }));
+
     process.env.PORT = '3000';
     process.env.NODE_ENV = 'test';
 
-    expect(() => validateEnv()).toThrow();
+    expect(() => require('../../config')).toThrow('Invalid environment variables');
   });
 
   test('should not throw an error when all required variables are present', () => {
+    jest.doMock('dotenv', () => ({ config: jest.fn() }));
+
     process.env.PORT = '3000';
     process.env.NODE_ENV = 'production';
     process.env.LOG_LEVEL = 'info';
+    process.env.SECRET_KEY = 'a-secure-secret-key';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_PORT = '5432';
+    process.env.DB_NAME = 'testdb';
+    process.env.DB_USER = 'testuser';
+    process.env.DB_PASSWORD = 'testpassword';
 
-    expect(() => validateEnv()).not.toThrow();
+    expect(() => require('../../config')).not.toThrow();
   });
 });

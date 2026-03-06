@@ -207,12 +207,12 @@ describe('Products /api/products with auth', () => {
       await errorResponseSchema.validateAsync(body);
     });
 
-    it("should return 404 if user doesn't exist", async () => {
+    it("should return 401 if user doesn't exist", async () => {
       const { body } = await request(API_HOST)
         .get(PRODUCTS_API_URL)
         .set('Authorization', `Bearer ${RANDOM_TOKEN}`)
         .expect('Content-Type', /json/)
-        .expect(404);
+        .expect(401);
 
       await errorResponseSchema.validateAsync(body);
     });
