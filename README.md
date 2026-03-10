@@ -16,26 +16,24 @@ rm -rf node_modules && npm i
 
 ```
 ## start container
-podman-compose -f docker-compose.postgres.yml up -d
-docker-compose -f docker-compose.postgres.yml up -d
+podman-compose --env-file .env.production up -d
+docker-compose --env-file .env.production up -d
 
 ## stop container
-podman-compose -f docker-compose.postgres.yml down
-docker-compose -f docker-compose.postgres.yml down
+podman-compose down
+docker-compose down
 ```
 
-#### MongoDB
+### Environment Setup
 
-```
-## start container
-podman-compose -f docker-compose.mongodb.yml up -d
-docker-compose -f docker-compose.mongodb.yml up -d
+Copy the example files and fill in your values:
 
-## stop container
+```bash
+# For production/development
+cp .env.example .env.production
 
-podman-compose -f docker-compose.mongodb.yml down
-docker-compose -f docker-compose.mongodb.yml down
-```
+# For running tests
+cp .env.test.example .env.test
 
 ### Starting the Development Server
 

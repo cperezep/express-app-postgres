@@ -9,3 +9,5 @@ cobertura-coverage.xml
 
 .DS_Store
 .env
+.env.test
+.env.production
