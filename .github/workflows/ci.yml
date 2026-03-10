@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, node-js-express-app-postgres]
   pull_request:
-    branches: [main]
+    branches: [main, node-js-express-app-postgres]
 
 jobs:
   lint:
