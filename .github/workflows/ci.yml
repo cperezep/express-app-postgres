@@ -63,7 +63,7 @@ jobs:
       - name: Run tests
         run: npm test
         env:
-          NODE_ENV: production+
+          NODE_ENV: production
           PORT: 8000
           LOG_LEVEL: info
           DB_HOST: localhost

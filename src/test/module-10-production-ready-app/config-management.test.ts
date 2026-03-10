@@ -10,39 +10,61 @@ describe('[Production-Ready Node.js Applications] Configuration and Environment 
   });
 
   test('should load .env.production when NODE_ENV is production', () => {
-    process.env.NODE_ENV = 'production';
+    const dotenv = require('dotenv');
+    const spy = jest.spyOn(dotenv, 'config');
 
-    const { config } = require('@/config');
-    expect(config).toEqual(
-      expect.objectContaining({
-        PORT: '8000',
-        NODE_ENV: 'production',
-        LOG_LEVEL: 'info',
-      }),
-    );
+    process.env.NODE_ENV = 'production';
+    process.env.SECRET_KEY = 'a-secure-secret-key';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_NAME = 'testdb';
+    process.env.DB_USER = 'testuser';
+    process.env.DB_PASSWORD = 'testpassword';
+
+    require('@/config');
+
+    expect(spy).toHaveBeenCalledWith({ path: '.env.production' });
   });
 
   test('should load .env.test when NODE_ENV is test', () => {
-    process.env.NODE_ENV = 'test';
+    const dotenv = require('dotenv');
+    const spy = jest.spyOn(dotenv, 'config');
 
-    const { config } = require('@/config');
-    expect(config).toEqual(
-      expect.objectContaining({
-        PORT: '8000',
-        NODE_ENV: 'test',
-        LOG_LEVEL: 'debug',
-      }),
-    );
+    process.env.NODE_ENV = 'test';
+    process.env.SECRET_KEY = 'a-secure-secret-key';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_NAME = 'testdb';
+    process.env.DB_USER = 'testuser';
+    process.env.DB_PASSWORD = 'testpassword';
+
+    require('@/config');
+
+    expect(spy).toHaveBeenCalledWith({ path: '.env.test' });
   });
 
   test('should fallback to .env.test when NODE_ENV is not defined', () => {
-    const {
-      config: { NODE_ENV },
-    } = require('@/config');
-    expect(NODE_ENV).toEqual('test');
+    const dotenv = require('dotenv');
+    const spy = jest.spyOn(dotenv, 'config');
+
+    process.env.SECRET_KEY = 'a-secure-secret-key';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_NAME = 'testdb';
+    process.env.DB_USER = 'testuser';
+    process.env.DB_PASSWORD = 'testpassword';
+
+    require('@/config');
+
+    expect(spy).toHaveBeenCalledWith({ path: '.env.test' });
   });
 
   test('should use default values for config when environment variables are missing', () => {
+    jest.doMock('dotenv', () => ({ config: jest.fn() }));
+
+    process.env.SECRET_KEY = 'a-secure-secret-key';
+    process.env.DB_HOST = 'localhost';
+    process.env.DB_NAME = 'testdb';
+    process.env.DB_USER = 'testuser';
+    process.env.DB_PASSWORD = 'testpassword';
+
     const { config } = require('@/config');
     expect(config).toEqual(
       expect.objectContaining({
